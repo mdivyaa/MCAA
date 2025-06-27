@@ -1,0 +1,36 @@
+body{
+background-color:pink;
+}
+h1{
+    font-size:300%;
+    color:violet;
+}
+p{  
+          text-align: center; color:green;
+          font-size:200%;
+}
+h2{
+        text-align:center;
+        color:red;
+        font-size:300%;
+}
+h3{
+          text-align:left;
+         color:blue;
+}
+h4{
+        text-align:right;
+        color:green;
+}
+h5{
+          text-align:center;
+        color:yellow;
+}
+h6{
+        text-align:right;
+        color:brown;
+}
+td{
+          text-align:left;
+        color:skyblue;
+}

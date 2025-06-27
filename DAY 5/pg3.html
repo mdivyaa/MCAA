@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function add()
+{
+   var num1,num2,sum;
+   num1=parseInt(document.getElementById("txtFirstNumber").value);
+   num2=parseInt(document.getElementById("txtSecondNumber").value);
+   sum=num1+num2;
+    document.getElementById("txtAnswer").value=sum;
+}
+function sub()
+{
+  
+   var num1,num2,sub;
+   num1=parseInt(document.getElementById("txtFirstNumber").value);
+   num2=parseInt(document.getElementById("txtSecondNumber").value);
+   sub=num1-num2;
+    document.getElementById("txtAnswer").value=sub;
+}
+function mul()
+{
+  
+   var num1,num2,mul;
+   num1=parseInt(document.getElementById("txtFirstNumber").value);
+   num2=parseInt(document.getElementById("txtSecondNumber").value);
+   mul=num1*num2;
+    document.getElementById("txtAnswer").value=mul;
+}
+function divi()
+{
+  
+   var num1,num2,divi;
+   num1=parseInt(document.getElementById("txtFirstNumber").value);
+   num2=parseInt(document.getElementById("txtSecondNumber").value);
+   divi=num1/num2;
+    document.getElementById("txtAnswer").value=divi;
+}
+function mod()
+{
+  
+   var num1,num2,mod;
+   num1=parseInt(document.getElementById("txtFirstNumber").value);
+   num2=parseInt(document.getElementById("txtSecondNumber").value);
+   mod=num1%num2;
+    document.getElementById("txtAnswer").value=mod;
+}
+function xyz()
+{
+ document.getElementById("txtFirstNumber").value=" ";
+ document.getElementById("txtSecondNumber").value=" ";
+ document.getElementById("txtAnswer").value=" " ;
+}
+</script>
+</head>
+<body>
+<table border="3" align="center">
+<tr>
+<th>First Number:</th>
+<td colspan="4"><input id="txtFirstNumber"></td>
+</tr>
+<tr>
+<th>Second Number:</th>
+<td colspan="4"><input id="txtSecondNumber"></td>
+</tr>
+<tr>
+<th bgcolor="pink"><button onclick="add()" >+</button></th>
+<th bgcolor="pink"><button onclick="sub()">-</button></th>
+<th bgcolor="pink"><button onclick="mul()">*</button></th>
+<th bgcolor="pink"><button onclick="divi()">/</button></th>
+<th bgcolor="pink"><button onclick="mod()">%</button></th>
+</tr>
+<tr >
+<th colspan="5">Result=<input id="txtAnswer"></th>
+</tr>
+<tr>
+<th colspan="5" bgcolor="lavender"><button onclick="xyz()">Clear</button></th>
+</tr>
+</table>
+</body>
+</html>
+
