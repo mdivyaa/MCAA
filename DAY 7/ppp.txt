@@ -1,0 +1,49 @@
+  var selectedRow = null;
+
+    function onFormSubmit() {
+      var formData = readFormData();
+      if (isValid(formData)) {
+          alert("Your details are saved successfully.");
+        }
+        resetForm();
+      }
+    }
+
+    function readFormData() {
+      var formData = {};
+      formData["Name"] = document.getElementById("Name").value;
+      formData["Age"] = document.getElementById("Age").value;
+      formData["Mobilenumber"] = document.getElementById("Mobilenumber").value;
+      formData["Mail"] = document.getElementById("Mail").value;
+      formData["Course"] = document.getElementById("Course").value;
+      return formData;
+    }
+
+    function resetForm() {
+      document.getElementById("Name").value = "";
+      document.getElementById("Age").value = "";
+      document.getElementById("Mobilenumber").value = "";
+      document.getElementById("Mail").value = "";
+      document.getElementById("Course").value = "";
+      selectedRow = null;
+    }
+
+    function isValid(formData) {
+      if (
+        validateName(formData.Name) &&
+        formData.Age &&
+        formData.Mobilenumber &&
+        formData.Mail &&
+        formData.Course
+      ) {
+        return true;
+      } else {
+        alert("Please fill all fields correctly.");
+        return false;
+      }
+    }
+
+    function validateName(name) {
+      const namePattern = /^[a-zA-Z\s'-]+$/;
+      return namePattern.test(name);
+    }

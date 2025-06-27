@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+<title>{% block title %}My Website{% endblock %}</title>
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body bgcolor="lavender">
+<header style="background-color:black;" >
+     <img src="{% static 'img/logo.png' %}">
+<marquee>
+<h1 style="border:2px solid green; background-color:pink; text-align:center;">Mother Theresa Institute Of Computer Applications</h1>
+</marquee>
+<h2 style="text-align:center; color:white;">palamaner,melumai</h2>
+<div class="navbar" style="background-color:SlateBlue;">
+<div class="dropdown">
+<button class="dropbtn" style="background-color:MediumSeaGreen;">Sem1</button>
+<div class="dropdown-content" style="background-color:skyblue;">
+<a href="{% url 'dms' %}">MCA101</a>
+<a href="{% url 'java' %}">MCA102</a>
+<a href="{% url 'co' %}">MCA103</a>
+<a href="{% url 'os' %}">MCA104</a>
+<a href="{% url 'afm' %}">MCA105</a>
+<a href="{% url 'swlab' %}">MCA106</a>
+<a href="{% url 'javalab' %}">MCA107</a>
+<a href="{% url 'oslab' %}">MCA108</a>
+</div>
+</div>
+<div class="dropdown">
+<button class="dropbtn">Sem2</button>
+<div class="dropdown-content" style="background-color:skyblue;">
+<a href="{% url 'dccn' %}">MCA201</a>
+<a href="{% url 'javads' %}">MCA202</a>
+<a href="{% url 'adbms' %}">MCA203</a>
+<a href="{% url 'coor' %}">MCA204</a>
+<a href="{% url 'ecommerce' %}">MCA205</a>
+<a href="{% url 'gd' %}">MCA206</a>
+<a href="{% url 'dccnlab' %}">MCA207</a>
+<a href="{% url 'javadslab' %}">MCA208</a>
+<a href="{% url 'adbmslab' %}">MCA209</a>
+</div>
+</div>
+<div class="dropdown">
+<button class="dropbtn"  style="background-color:MediumSeaGreen;">Sem3</button>
+<div class="dropdown-content" style="background-color:skyblue;">
+<a href="{% url 'swengineering' %}">MCA301</a>
+<a href="{% url 'computertechnologies' %}">MCA302</a>
+<a href="{% url 'webtechnologies' %}">MCA303</a>
+<a href="{% url 'systemprogramming' %}">MCA304</a>
+<a href="{% url 'mobiledevelopment' %}">MCA305</a>
+<a href="{% url 'technicalseminar' %}">MCA306</a>
+<a href="{% url 'swlab3' %}">MCA307</a>
+<a href="{% url 'webtechnologieslab' %}">MCA308</a>
+<a href="{% url 'minorproject' %}">MCA309</a>
+</div>
+</div>
+<div class="dropdown">
+<button class="dropbtn">Sem4</button>
+<div class="dropdown-content" style="background-color:skyblue;">
+<a href="{% url 'swtesting' %}">MCA401</a>
+<a href="{% url 'iot' %}">MCA402</a>
+<a href="{% url 'majorproject' %}">MCA403</a>
+<a href="{% url 'project' %}">ProjectWork</a>
+</div>
+</div>
+<a href="exit.html"  style="background-color:MediumSeaGreen;">Exit</a>
+</div>
+</header>
+  <main>
+        {% block content %}
+        {% endblock %}
+    </main>  
+</body>
+</html>

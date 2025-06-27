@@ -1,0 +1,46 @@
+{% extends 'abc.html' %}
+
+{% block title %}Home Page{% endblock %}
+
+{% block content %}
+<h1 style="border:2px solid green; background-color:lavender; text-align:center">DBMS</h1>
+<pre>
+A DBMS is a software application that manages and organizes a database. 
+It provides tools for accessing, modifying, and managing data within the database. 
+Examples of popular DBMS include MySQL, Oracle, Microsoft SQL Server, and PostgreSQL. 
+Key Concepts in DBMS:
+Databases:
+Structured collections of data stored in electronic devices, which can be text, 
+images, or other formats. 
+Tables:
+Relational databases store data in the form of tables, with rows representing records
+ and columns representing attributes. 
+SQL (Structured Query Language):
+A standard language for accessing and manipulating data in relational databases. 
+Data Types:
+Different types of data, such as integers, dates, strings, etc., are used to 
+define how data is stored in the database. 
+Keys:
+Primary keys uniquely identify each record in a table, while 
+foreign keys link related tables together. 
+Normalization:
+A process of organizing data to reduce redundancy and improve 
+data integrity, often by breaking down large tables into smaller, more manageable ones. 
+Indexes:
+Used to speed up data retrieval by creating a special lookup
+ table that allows the database to quickly locate data based on a specific column or set of columns. 
+Advantages of using a DBMS: 
+Data Security: DBMSs provide strong security measures to protect data from unauthorized access. 
+Data Integrity: They ensure data accuracy and consistency by enforcing rules and constraints. 
+Data Independence: Users can access data without needing
+ to know how it's physically stored. 
+Scalability: DBMSs can handle large amounts of data and a growing number of users. 
+Performance: They can optimize data retrieval and manipulation for better performance. 
+Types of DBMS:
+Relational DBMS (RDBMS): Uses tables and SQL for data management. 
+NoSQL DBMS: Doesn't use SQL or tables, often using key-value pairs or document formats for data storage. 
+Hierarchical DBMS: Stores data in a tree-like structure. 
+Network DBMS: Uses a network model to link data elements. 
+Object-Oriented DBMS (OODBMS): Supports object-oriented programming concepts for data management. 
+</pre>
+{% endblock %}

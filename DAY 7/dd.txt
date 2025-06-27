@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="style.css" />
+    <script src="script.js"></script>
+    <title>PersonalDetails</title>
+  </head>
+  <body >
+    <table border="1" align="center" bgcolor="pink"  width="200" height="200" >
+      <tr>
+        <td>
+          <form  >
+            <h2>PersonalDetails</h2>
+            <div>
+              <label >Name</label><br />
+              <input
+                type="text"
+                class="Name"
+                id="Name"
+                placeholder="Enter the Student Name"
+              />
+            </div>
+            <div>
+              <label >Age</label><br />
+              <input
+                type="number"
+                class="Age"
+                id="Age"
+                placeholder="Enter the Age"
+              />
+            </div>
+            <div>
+              <label>MobileNumber</label><br />
+              <input
+                type="text"
+                class="Mobilenumber"
+                id="Mobilenumber"
+                placeholder="Enter the MobileNumber"
+              />
+            </div>
+            <div>
+              <label >Mail-Id</label><br />
+              <input
+                type="text"
+                class="Mail"
+                id="Mail"
+                placeholder="Enter valid mail-id "
+              />
+            </div>
+            <div>
+              <label >course</label><br />
+              <input
+                type="text"
+                class="Course"
+                id="Course"
+                placeholder="Enter the course"
+              />
+            </div>
+   
+            <div>
+              <input type="submit" value="submit" />
+              <input type="submit" value="clear" />
+            </div> 
+          </form>
+        </td>
+      </tr>  
+  </body>
+</html>
+
+
+
+
+
+
+var selectedRow = null;
+
+window.onload = function () {
+  // Prevent default form submission and handle submit manually
+  document.querySelector("form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    onFormSubmit();
+  });
+
+  // Handle clear button click
+  const buttons = document.querySelectorAll("input[type='submit']");
+  if (buttons.length === 2) {
+    buttons[1].addEventListener("click", function (e) {
+      e.preventDefault();
+      resetForm();
+    });
+  }
+};
+
+function onFormSubmit() {
+  var formData = readFormData();
+  if (isValid(formData)) {
+    if (selectedRow == null) {
+      insertNewRecord(formData);
+      alert("Your details are saved successfully.");
+    }
+    resetForm();
+  }
+}
+
+function readFormData() {
+  return {
+    Name: document.getElementById("Name").value.trim(),
+    Age: document.getElementById("Age").value.trim(),
+    Mobilenumber: document.getElementById("Mobilenumber").value.trim(),
+    Mail: document.getElementById("Mail").value.trim(),
+    Course: document.getElementById("Course").value.trim(),
+  };
+}
+
+function resetForm() {
+  document.getElementById("Name").value = "";
+  document.getElementById("Age").value = "";
+  document.getElementById("Mobilenumber").value = "";
+  document.getElementById("Mail").value = "";
+  document.getElementById("Course").value = "";
+  selectedRow = null;
+}
+
+function isValid(data) {
+  if (
+    data.Name === "" ||
+    data.Age === "" ||
+    data.Mobilenumber === "" ||
+    data.Mail === "" ||
+    data.Course === ""
+  ) {
+    alert("Please fill in all fields.");
+    return false;
+  }
+
+  if (!validateName(data.Name)) {
+    alert("Name must contain only letters and spaces.");
+    return false;
+  }
+
+  return true;
+}
+
+function validateName(name) {
+  const namePattern = /^[a-zA-Z\s'-]+$/;
+  return namePattern.test(name);
+}
+
+function insertNewRecord(data) {
+  // Placeholder: You can modify this to insert into a table
+  console.log("Inserted Record:", data);
+}
