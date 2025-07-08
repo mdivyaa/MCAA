@@ -1,0 +1,159 @@
+step-by-step guide to implement Django CRUD operations using Class-Based Views (CBVs) on an Employee table.
+
+✅ Project Setup
+1. Create a new Django project
+
+django-admin startproject myproject
+cd myproject
+
+2. Create an app
+
+python manage.py startapp employeeapp
+
+3. Add the app to settings.py
+
+# myproject/settings.py
+INSTALLED_APPS = [
+    ...
+    'employeeapp',
+]
+
+✅ Step-by-Step Code
+4. Create the model
+
+# employeeapp/models.py
+from django.db import models
+
+class Employee(models.Model):
+    name = models.CharField(max_length=30)
+    email = models.EmailField(unique=True)
+    department = models.CharField(max_length=30)
+
+    def __str__(self):
+        return self.name
+
+5. Make migrations
+
+python manage.py makemigrations
+python manage.py migrate
+
+6. Create forms.py
+
+# employeeapp/forms.py
+from django import forms
+from .models import Employee
+
+class EmployeeForm(forms.ModelForm):
+    class Meta:
+        model = Employee
+        fields = ['name', 'email', 'department']
+
+7. Create class-based views
+
+# employeeapp/views.py
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
+from django.urls import reverse_lazy
+from .models import Employee
+from .forms import EmployeeForm
+
+class EmployeeListView(ListView):
+    model = Employee
+    template_name = 'employee_list.html'
+
+class EmployeeDetailView(DetailView):
+    model = Employee
+    template_name = 'employee_detail.html'
+
+class EmployeeCreateView(CreateView):
+    model = Employee
+    form_class = EmployeeForm
+    template_name = 'employee_form.html'
+    success_url = reverse_lazy('employee_list')
+
+class EmployeeUpdateView(UpdateView):
+    model = Employee
+    form_class = EmployeeForm
+    template_name = 'employee_form.html'
+    success_url = reverse_lazy('employee_list')
+
+class EmployeeDeleteView(DeleteView):
+    model = Employee
+    template_name = 'employee_confirm_delete.html'
+    success_url = reverse_lazy('employee_list')
+
+8. Create urls.py in app
+
+# employeeapp/urls.py
+from django.urls import path
+from .views import *
+
+urlpatterns = [
+    path('', EmployeeListView.as_view(), name='employee_list'),
+    path('employee/<int:pk>/', EmployeeDetailView.as_view(), name='employee_detail'),
+    path('employee/add/', EmployeeCreateView.as_view(), name='employee_add'),
+    path('employee/<int:pk>/edit/', EmployeeUpdateView.as_view(), name='employee_edit'),
+    path('employee/<int:pk>/delete/', EmployeeDeleteView.as_view(), name='employee_delete'),
+]
+
+And include it in the project urls.py:
+
+
+# myproject/urls.py
+from django.contrib import admin
+from django.urls import path, include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', include('employeeapp.urls')),
+]
+
+✅ Templates (in employeeapp/templates/ folder)
+1. employee_list.html
+
+
+<h2>Employee List</h2>
+<a href="{% url 'employee_add' %}">Add New</a>
+<ul>
+  {% for employee in object_list %}
+    <li>
+      <a href="{% url 'employee_detail' employee.pk %}">{{ employee.name }}</a>
+      | <a href="{% url 'employee_edit' employee.pk %}">Edit</a>
+      | <a href="{% url 'employee_delete' employee.pk %}">Delete</a>
+    </li>
+  {% endfor %}
+</ul>
+2. employee_detail.html
+
+
+<h2>Employee Detail</h2>
+<p>Name: {{ object.name }}</p>
+<p>Email: {{ object.email }}</p>
+<p>Department: {{ object.department }}</p>
+<a href="{% url 'employee_list' %}">Back to list</a>
+3. employee_form.html
+
+
+<h2>{{ view.object.pk|yesno:"Edit Employee,Add Employee" }}</h2>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Save</button>
+</form>
+<a href="{% url 'employee_list' %}">Back to list</a>
+
+4. employee_confirm_delete.html
+
+
+<h2>Delete Employee</h2>
+<p>Are you sure you want to delete {{ object.name }}?</p>
+<form method="post">
+  {% csrf_token %}
+  <button type="submit">Confirm</button>
+</form>
+<a href="{% url 'employee_list' %}">Cancel</a>
+
+✅ Run the server
+
+python manage.py runserver
+Go to http://127.0.0.1:8000/ to see the app in action.
+
