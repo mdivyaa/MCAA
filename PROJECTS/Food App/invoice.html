@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Invoice</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root { --brand:#ff5722; --ok:#4caf50; }
+    body{font-family:Arial,Helvetica,sans-serif;margin:0;background:#f2f2f2}
+    header{background:var(--brand);color:#fff;text-align:center;padding:14px}
+    .wrap{max-width:900px;margin:24px auto;background:#fff;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,.08);padding:18px}
+    table{width:100%;border-collapse:collapse}
+    th,td{border-bottom:1px solid #eee;padding:10px;text-align:center}
+    th{background:#fff6f2}
+    .row{display:flex;gap:10px;justify-content:space-between;align-items:center;margin-top:16px;flex-wrap:wrap}
+    .btn{border:0;background:var(--ok);color:#fff;padding:10px 14px;border-radius:8px;cursor:pointer}
+    .link{background:#607d8b}
+  </style>
+</head>
+<body>
+<header><h2>🧾 Invoice</h2></header>
+
+<div class="wrap">
+  <div id="meta"></div>
+  <table id="invTable">
+    <thead>
+      <tr><th>Item</th><th>Price (₹)</th><th>Qty</th><th>Total (₹)</th></tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <div class="row">
+    <h3>Grand Total: ₹<span id="grand">0</span></h3>
+    <div>
+      <button class="btn link" onclick="backToMenu()">Back to Menu</button>
+      <button class="btn" onclick="confirmOrder()">Confirm Order</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const LS_KEY = 'fo_cart';
+  const cart = JSON.parse(localStorage.getItem(LS_KEY) || '[]');
+
+  // If someone opens invoice directly with empty cart, go back.
+  if(!cart.length){ window.location.replace('index.html'); }
+
+  // Simple order meta
+  const meta = document.getElementById('meta');
+  const orderId = 'FO-' + Math.floor(100000 + Math.random()*900000);
+  const when = new Date().toLocaleString();
+  meta.innerHTML = `<p><strong>Order ID:</strong> ${orderId} &nbsp; | &nbsp; <strong>Date:</strong> ${when}</p>`;
+
+  const tbody = document.querySelector('#invTable tbody');
+  let grand = 0;
+  cart.forEach(it=>{
+    const t = it.price * it.qty;
+    grand += t;
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${it.name}</td><td>₹${it.price}</td><td>${it.qty}</td><td>₹${t}</td>`;
+    tbody.appendChild(tr);
+  });
+  document.getElementById('grand').textContent = grand;
+  localStorage.setItem('fo_last_total', String(grand));
+  localStorage.setItem('fo_last_order', orderId);
+
+  function backToMenu(){ window.location.href = 'index.html'; }
+  function confirmOrder(){
+    // clear cart and go to confirmation
+    localStorage.removeItem(LS_KEY);
+    window.location.href = 'confirm.html';
+  }
+</script>
+</body>
+</html>

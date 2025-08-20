@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Food Ordering App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root { --brand:#ff5722; --ok:#4caf50; --bad:#f44336; }
+    body{font-family:Arial,Helvetica,sans-serif;margin:0;background:#f7f7f7;}
+    header{background:var(--brand);color:#fff;padding:16px;text-align:center;}
+    .wrap{max-width:1000px;margin:20px auto;padding:0 16px;}
+    .menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;}
+    .card{background:#fff;border-radius:12px;padding:12px;box-shadow:0 4px 12px rgba(0,0,0,.08);text-align:center}
+    .card img{width:100%;height:140px;object-fit:cover;border-radius:10px}
+    .card h3{margin:10px 0 6px}
+    .btn{border:0;background:var(--brand);color:#fff;padding:8px 12px;border-radius:8px;cursor:pointer}
+    .btn:hover{filter:brightness(.95)}
+    .cart{background:#fff;margin-top:20px;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,.08);padding:16px}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:10px;border-bottom:1px solid #eee;text-align:center}
+    .qtybtn{padding:2px 8px;border-radius:6px;border:0;cursor:pointer;background:#2196f3;color:#fff}
+    .rm{background:var(--bad)}
+    .foot{display:flex;justify-content:space-between;align-items:center;margin-top:10px;gap:8px;flex-wrap:wrap}
+    .place{background:var(--ok)}
+    .muted{opacity:.7}
+ .menu-item img {
+  width: 150px;
+  height: 120px;
+  border-radius: 10px;
+  display: block;
+  margin-bottom: 10px;
+}
+  </style>
+</head>
+<body>
+<header><h1>🍔 Food Ordering</h1></header>
+
+<div class="wrap">
+  <section class="menu" id="menu">
+    <div class="card">
+      <img src="images/pizza.jpg" alt="Pizza">
+      <h3>Pizza</h3><p>₹250</p>
+      <button class="btn" onclick="addToCart('Pizza',250)">Add to Cart</button>
+    </div>
+    <div class="card">
+      <img src="images/burger.jpg" alt="Burger">
+      <h3>Burger</h3><p>₹150</p>
+      <button class="btn" onclick="addToCart('Burger',150)">Add to Cart</button>
+    </div>
+    <div class="card">
+      <img src="images/pasta.jpg" alt="Pasta">
+      <h3>Pasta</h3><p>₹200</p>
+      <button class="btn" onclick="addToCart('Pasta',200)">Add to Cart</button>
+    </div>
+    <div class="card">
+       <img src="images/icecream.jpg" alt="IceCream">
+   <h3>Ice Cream</h3><p>₹100</p>
+      <button class="btn" onclick="addToCart('Ice Cream',100)">Add to Cart</button>
+    </div>
+  </section>
+
+  <section class="cart">
+    <h2>🛒 Your Cart</h2>
+    <table id="cartTable">
+      <thead>
+        <tr><th>Item</th><th>Qty</th><th>Price</th><th>Total</th><th>Remove</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <div class="foot">
+      <h3>Grand Total: ₹<span id="grand">0</span></h3>
+      <button id="placeBtn" class="btn place" onclick="placeOrder()" disabled>Place Order</button>
+    </div>
+    <div id="hint" class="muted">Tip: add items from the menu above.</div>
+  </section>
+</div>
+
+<script>
+  // Single, consistent key across pages
+  const LS_KEY = 'fo_cart';
+
+  let cart = JSON.parse(localStorage.getItem(LS_KEY) || '[]');
+
+  function addToCart(name, price){
+    const found = cart.find(i => i.name === name);
+    if(found){ found.qty += 1; }
+    else { cart.push({name, price, qty:1}); }
+    render();
+  }
+
+  function changeQty(name, delta){
+    const it = cart.find(i => i.name === name);
+    if(!it) return;
+    it.qty += delta;
+    if(it.qty <= 0){ cart = cart.filter(i => i.name !== name); }
+    render();
+  }
+
+  function removeItem(name){
+    cart = cart.filter(i => i.name !== name);
+    render();
+  }
+
+  function render(){
+    const tbody = document.querySelector('#cartTable tbody');
+    tbody.innerHTML = '';
+    let total = 0;
+
+    cart.forEach(it => {
+      const row = document.createElement('tr');
+      const itemTotal = it.price * it.qty;
+      total += itemTotal;
+
+      row.innerHTML = `
+        <td>${it.name}</td>
+        <td>
+          <button class="qtybtn" onclick="changeQty('${it.name}',-1)">−</button>
+          ${it.qty}
+          <button class="qtybtn" onclick="changeQty('${it.name}',1)">+</button>
+        </td>
+        <td>₹${it.price}</td>
+        <td>₹${itemTotal}</td>
+        <td><button class="qtybtn rm" onclick="removeItem('${it.name}')">Remove</button></td>
+      `;
+      tbody.appendChild(row);
+    });
+
+    document.getElementById('grand').textContent = total;
+    document.getElementById('placeBtn').disabled = cart.length === 0;
+    document.getElementById('hint').style.display = cart.length ? 'none' : 'block';
+
+    // persist
+    localStorage.setItem(LS_KEY, JSON.stringify(cart));
+  }
+
+  function placeOrder(){
+    if(cart.length === 0){ alert('Your cart is empty'); return; }
+    // Also store last total for the confirmation page
+    const grand = cart.reduce((s,i)=>s + i.price*i.qty, 0);
+    localStorage.setItem('fo_last_total', String(grand));
+    window.location.href = 'invoice.html'; // files must be in SAME folder
+  }
+
+  render();
+</script>
+</body>
+</html>
